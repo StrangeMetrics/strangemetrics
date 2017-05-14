@@ -69,7 +69,7 @@
 				
 				<h4>HasOffers setup</h4>
 				<p>You will now be asked to set up some information from your HasOffers account.</p>
-				<p>Here is the <a target="blank" href="https://developers.tune.com/network-docs/setting-up-api-authentication/">HasOffers documentation</a> on how to get this information.</p>
+				<p>Here is the <a target="blank" href="https://developers.tune.com/network-docs/setting-up-api-authentication/">HasOffers documentation <span class="glyphicon glyphicon-new-window"></span></a> on how to get this information.</p>
 				<h4><?= APP_NAME ?> IPs</h4>
 				<p>You will also need to whitelist this IP in HasOffers: <code><?= $_SERVER['REMOTE_ADDR'] ?></code></p>
 			</div>
