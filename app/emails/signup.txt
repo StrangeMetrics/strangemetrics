@@ -1,0 +1,5 @@
+Welcome to Strange Metrics!
+
+To get started, please verify your email address by clicking this URL
+
+{validation_url}

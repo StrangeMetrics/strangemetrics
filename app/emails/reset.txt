@@ -1,0 +1,3 @@
+Hello, someone asked for a password reset, if it was you, please follow the link bellow. If you didn't ask for this, just dismiss this email.
+
+Reset password: {reset_url}

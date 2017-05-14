@@ -1,0 +1,9 @@
+body { padding-top:70px; }
+.link-button-color {
+    color: #fff;
+}
+
+.link-button-color:hover {
+    text-decoration: none;
+    color: #333;
+}
