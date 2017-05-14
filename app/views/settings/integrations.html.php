@@ -14,7 +14,9 @@
 		<a class="pull-right btn btn-primary" href="<?= url_for('/settings/integrations/add') ?>">New integration</a>
 		<h3>Integrations</h3>
 		
-		<?php if (isset($integrations)): ?>
+		<div class="alert alert-success"><?= flash_now('success') ?></div>
+		
+		<?php if ($integrations): ?>
 			<table class="table table-hover">
 				<thead>
 					<th style="width:30px">#</th>

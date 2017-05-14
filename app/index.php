@@ -18,6 +18,9 @@ dispatch('/signout', 'users_logout');
 dispatch('/settings', 'settings_index');
 dispatch('/settings/integrations', 'settings_integrations');
 dispatch('/settings/integrations/add', 'settings_integrations_add');
+	dispatch_post('/settings/integrations/add', 'settings_integrations_add');
+dispatch('/settings/integrations/:id', 'settings_integrations_edit');
+	dispatch_post('/settings/integrations/:id', 'settings_integrations_edit');
 dispatch('/settings/emails', 'settings_emails');
 
 run();

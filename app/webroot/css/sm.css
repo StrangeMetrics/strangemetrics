@@ -7,3 +7,11 @@ body { padding-top:70px; }
     text-decoration: none;
     color: #333;
 }
+
+.alert:empty {
+	display:none;
+}
+
+.btn:focus,.btn:active {
+   outline: none !important;
+}
