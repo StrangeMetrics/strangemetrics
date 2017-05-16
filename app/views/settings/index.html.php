@@ -22,12 +22,17 @@
 					
 					<div class="form-group">
 						<label for="awsKey">AWS KEY</label>
-						<input type="text" class="form-control" id="awsKey" name="settings[aws_key]" placeholder="AWS KEY" />
+						<input type="text" class="form-control" id="awsKey" name="settings[aws_key]" placeholder="AWS KEY" value="<?= $settings['aws_key'] ?>" />
 					</div>
 					
 					<div class="form-group">
 						<label for="awsSecret">AWS Secret</label>
-						<input type="text" class="form-control" id="awsSecret" name="settings[aws_secret]" placeholder="AWS Secret" />
+						<input type="text" class="form-control" id="awsSecret" name="settings[aws_secret]" placeholder="AWS Secret" value="<?= $settings['aws_secret'] ?>" />
+					</div>
+					
+					<div class="form-group">
+						<label for="awsBucket">AWS Bucket</label>
+						<input type="text" class="form-control" id="awsBucket" name="settings[aws_bucket]" placeholder="your-bucket" value="<?= $settings['aws_bucket'] ?>" />
 					</div>
 					
 					<button type="submit" class="btn btn-primary pull-right">Submit</button>

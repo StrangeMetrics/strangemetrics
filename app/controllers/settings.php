@@ -6,21 +6,44 @@ function settings_index()
 	
    $db = db_connect();
 	
-	// settings scheleton
-	$settings = [
-		'hasoffers_network_id' => '',
-		'hasoffers_api_key' => '',
-		'mailgun_api_key' => ''
-	];
-	
-	// Load settings from DB
-	$db_settings = $db->query('SELECT key, value FROM settings WHERE account_id = '.$_SESSION['user']['account_id'].' AND object = "global"');
-	if ($db_settings)
+	if ($_SERVER['REQUEST_METHOD']=='POST')
 	{
-		$settings = $db_settings;
+		$settings = $_POST['settings'];
+		if ( ! $settings['aws_key'] || ! $settings['aws_secret'] || ! $settings['aws_bucket'])
+		{
+			flash ('errors', '<p>Please complete all fields.</p>');
+		} else {
+			
+			foreach ($settings as $key=>$value)
+			{
+				$query = 'INSERT INTO settings (account_id, object, `key`, `value`) VALUES ';
+				$query.= '('.$_SESSION['user']['account_id'].', "global", "'.$key.'", "'.$value.'") ';
+				$query.= 'ON DUPLICATE KEY UPDATE `value` = "'.$value.'"';
+				$db->query($query);
+			}
+			flash ('success', '<p>Settings updated correctly.</p>');
+		}
+	} else {
+		
+		$settings = [
+			'aws_key' => '', 
+			'aws_secret' => '',
+			'aws_bucket' => ''
+		];
+		
+		// Load settings from DB
+		$db_settings = $db->query('SELECT `key`, `value` FROM settings WHERE account_id = '.$_SESSION['user']['account_id'].' AND object = "global"');
+		if ($db_settings)
+		{
+			$result = $db_settings->fetch_all(MYSQL_ASSOC);
+			foreach ($result as $row)
+			{
+				$settings[$row['key']] = $row['value'];
+			}
+		}
 	}
-
-	set(compact('settings'));
+	
+	set('settings', $settings);
 	return render ('/settings/index.html.php');
 }
 

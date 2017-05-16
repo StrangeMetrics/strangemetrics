@@ -24,7 +24,7 @@
 								<span class="icon-bar"></span>
 							</button>
 							<a class="navbar-brand" href="<?= url_for('/') ?>">
-								<?= APP_NAME ?>
+								<img src="<?= url_for('/') ?>/webroot/images/strangemetrics_iso.png" alt="<?= APP_NAME ?>" />
 							</a>
 						</div><!--/.navbar-header -->
 						<div class="collapse navbar-collapse" id="navbar-admin">

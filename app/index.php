@@ -16,6 +16,7 @@ dispatch('/reset_password', 'users_reset_password');
 dispatch('/signout', 'users_logout');
 
 dispatch('/settings', 'settings_index');
+	dispatch_post('/settings', 'settings_index');
 dispatch('/settings/integrations', 'settings_integrations');
 dispatch('/settings/integrations/add', 'settings_integrations_add');
 	dispatch_post('/settings/integrations/add', 'settings_integrations_add');
