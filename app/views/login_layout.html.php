@@ -12,7 +12,7 @@
 			    font-size: 12px
 			  }
 				h1 { text-align:center; }
-				h1 img { width:160px; }
+				h1 img { width:140px; padding:10px; border:1px solid #eee; background:#f6f6f6; border-radius:50%; }
 			  .main {
 			    max-width: 320px;
 			    margin: 0 auto;
@@ -30,7 +30,7 @@
    <body id="login">
 
       <div id="top">
-         <h1><img src="<?= url_for('/') ?>/webroot/images/strangemetrics_logo.png" alt="<?= APP_NAME ?>" /></h1>
+         <h1><img src="<?= url_for('/') ?>/webroot/images/strangemetrics_iso.png" alt="<?= APP_NAME ?>" /></h1>
       </div><!-- #top -->
 
 			<div class="container">
