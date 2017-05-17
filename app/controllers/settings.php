@@ -61,6 +61,8 @@ function settings_integrations()
 
 function settings_integrations_add()
 {
+	check_login();
+	
 	if ($_SERVER['REQUEST_METHOD']=='POST')
 	{
 		$integration = $_POST['app'];
@@ -102,6 +104,8 @@ function settings_integrations_add()
 
 function settings_integrations_edit($id)
 {
+	check_login();
+	
 	$db = db_connect();
 	
 	if ($_SERVER['REQUEST_METHOD']=='POST')
@@ -160,5 +164,55 @@ function settings_emails()
 {
 	check_login();
 	
+	$db = db_connect();
+	
+	if ($_SERVER['REQUEST_METHOD']=='POST')
+	{
+		
+		$settings = $_POST['settings'];
+		
+		if ( ! $settings['api_secret'] || ! $settings['domain'] || ! $settings['email'])
+		{
+			flash ('errors', '<p>Please complete all fields.</p>');
+		} else {
+			
+			foreach ($settings as $key=>$value)
+			{
+				$query = 'INSERT INTO settings (account_id, object, `key`, `value`) VALUES ';
+				$query.= '('.$_SESSION['user']['account_id'].', "mailgun", "'.$key.'", "'.$value.'") ';
+				$query.= 'ON DUPLICATE KEY UPDATE `value` = "'.$value.'"';
+				$db->query($query);
+			}
+			flash ('success', '<p>Mailgun settings updated correctly.</p>');
+		}
+		
+	} else {
+		
+		// scheleton
+		$settings = [
+			'api_secret' => '',
+			'domain' => '',
+			'email' => ''
+		];
+		
+		$result = $db->query('SELECT `key`, `value` FROM settings WHERE account_id = '.$_SESSION['user']['account_id'].' AND object = "mailgun"');
+		if ($result)
+		{
+			foreach ($result->fetch_all(MYSQL_ASSOC) as $row)
+			{
+				$settings[$row['key']] = $row['value'];
+			}
+		}
+	}
+	
+	// Get emails content
+	$emails = array_diff(scandir(__DIR__.'/../emails'), ['.', '..']);
+	foreach ($emails as $email)
+	{
+		$emails[$email] = file_get_contents(__DIR__.'/../emails/'.$email);
+	}
+
+	set ('emails', $emails);
+	set ('settings', $settings);
 	return render('/settings/emails.html.php');
 }
