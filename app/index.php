@@ -25,4 +25,10 @@ dispatch('/settings/integrations/:id', 'settings_integrations_edit');
 dispatch('/settings/emails', 'settings_emails');
 	dispatch_post('/settings/emails', 'settings_emails');
 
+dispatch('/analysis', 'analysis_index');
+dispatch('/analysis/new', 'analysis_new');
+	dispatch_post('/analysis/new', 'analysis_new');
+dispatch('/analysis/:id', 'analysis_edit');
+	dispatch_post('/analysis/:id', 'analysis_edit');
+
 run();

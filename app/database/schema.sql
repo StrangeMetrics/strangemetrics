@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.5.46-0ubuntu0.14.04.2)
 # Database: strangemetricsorg
-# Generation Time: 2017-05-14 22:43:52 +0000
+# Generation Time: 2017-05-18 03:33:23 +0000
 # ************************************************************
 
 
@@ -23,6 +23,8 @@
 # Dump of table accounts
 # ------------------------------------------------------------
 
+DROP TABLE IF EXISTS `accounts`;
+
 CREATE TABLE `accounts` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `created` datetime NOT NULL,
@@ -34,15 +36,18 @@ CREATE TABLE `accounts` (
 # Dump of table analysis
 # ------------------------------------------------------------
 
+DROP TABLE IF EXISTS `analysis`;
+
 CREATE TABLE `analysis` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `account_id` int(11) NOT NULL,
-  `tracking_platform_settings_id` int(11) NOT NULL,
-  `name` varchar(100) DEFAULT NULL,
+  `tracking_platform_id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL DEFAULT '',
   `created` datetime NOT NULL,
   `updated` datetime DEFAULT NULL,
   `last_run` datetime DEFAULT NULL,
-  `run_every_hours` int(4) DEFAULT NULL,
+  `run_every_hours` int(4) NOT NULL,
+  `formula` varchar(1000) NOT NULL DEFAULT '',
   `status` enum('on','off') NOT NULL DEFAULT 'on',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -51,6 +56,8 @@ CREATE TABLE `analysis` (
 
 # Dump of table cases
 # ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `cases`;
 
 CREATE TABLE `cases` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -86,6 +93,8 @@ CREATE TABLE `cases` (
 # Dump of table settings
 # ------------------------------------------------------------
 
+DROP TABLE IF EXISTS `settings`;
+
 CREATE TABLE `settings` (
   `account_id` int(11) NOT NULL,
   `object` varchar(100) NOT NULL DEFAULT '',
@@ -99,6 +108,8 @@ CREATE TABLE `settings` (
 
 # Dump of table static_reports
 # ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `static_reports`;
 
 CREATE TABLE `static_reports` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -117,6 +128,8 @@ CREATE TABLE `static_reports` (
 # Dump of table tracking_platforms
 # ------------------------------------------------------------
 
+DROP TABLE IF EXISTS `tracking_platforms`;
+
 CREATE TABLE `tracking_platforms` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `account_id` int(11) NOT NULL,
@@ -132,6 +145,8 @@ CREATE TABLE `tracking_platforms` (
 
 # Dump of table users
 # ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `users`;
 
 CREATE TABLE `users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
