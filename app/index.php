@@ -25,6 +25,7 @@ dispatch('/settings/integrations/:id', 'settings_integrations_edit');
 dispatch('/settings/emails', 'settings_emails');
 	dispatch_post('/settings/emails', 'settings_emails');
 
+dispatch('/analysis/cron', 'analysis_cron');
 dispatch('/analysis', 'analysis_index');
 dispatch('/analysis/new', 'analysis_new');
 	dispatch_post('/analysis/new', 'analysis_new');
