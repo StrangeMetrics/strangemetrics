@@ -47,6 +47,9 @@
 		<?php endforeach; ?>
 	</tbody>
 </table>
+
+<a class="btn btn-primary" href="<?= url_for('/analysis/new') ?>">New analysis</a>
+
 <?php else: ?>
 	<div class="alert alert-info">
 		<h4>There are no analysis yet</h4>
