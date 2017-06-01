@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.5.46-0ubuntu0.14.04.2)
 # Database: strangemetricsorg
-# Generation Time: 2017-05-18 03:33:23 +0000
+# Generation Time: 2017-06-01 02:46:32 +0000
 # ************************************************************
 
 
@@ -46,7 +46,7 @@ CREATE TABLE `analysis` (
   `created` datetime NOT NULL,
   `updated` datetime DEFAULT NULL,
   `last_run` datetime DEFAULT NULL,
-  `run_every_hours` int(4) NOT NULL,
+  `run_every_hours` int(20) NOT NULL,
   `formula` varchar(1000) NOT NULL DEFAULT '',
   `status` enum('on','off') NOT NULL DEFAULT 'on',
   PRIMARY KEY (`id`)
@@ -85,6 +85,45 @@ CREATE TABLE `cases` (
   `settled_revenue` float DEFAULT NULL,
   `settled_cost` float DEFAULT NULL,
   `synced_conversions` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table detections
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `detections`;
+
+CREATE TABLE `detections` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `analysis_id` int(11) NOT NULL,
+  `offer_id` int(11) NOT NULL,
+  `affiliate_id` int(11) NOT NULL,
+  `sub_ids` varchar(100) DEFAULT NULL,
+  `impressions` int(11) NOT NULL,
+  `clicks` int(11) NOT NULL,
+  `conversions` int(11) NOT NULL,
+  `status` enum('pending','processed') NOT NULL DEFAULT 'pending',
+  `formula_used` varchar(1000) DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `updated` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `analysis_id` (`analysis_id`,`offer_id`,`affiliate_id`,`sub_ids`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table reports
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `reports`;
+
+CREATE TABLE `reports` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `analysis_id` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `url` varchar(500) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

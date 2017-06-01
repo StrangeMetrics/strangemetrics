@@ -121,12 +121,11 @@ function analysis_edit($id)
 function analysis_cron()
 {
 	// Public function
-	
 	$db = db_connect();
 	
 	// Get next analysis to get the report
 	$analysis = $db->query('SELECT a.id, a.account_id, a.formula, tp.id AS tp_id, tp.platform FROM analysis a LEFT JOIN tracking_platforms tp ON tp.id = a.tracking_platform_id WHERE a.status = "on" AND ((a.last_run IS NULL) OR (TIMEDIFF(NOW(), a.last_run) > a.run_every_hours)) ORDER BY a.last_run ASC LIMIT 1');
-	
+
 	if ($analysis)
 	{
 		$analysis = $analysis->fetch_array(MYSQL_ASSOC);
@@ -166,7 +165,7 @@ function analysis_cron()
 					// Pull the report
 					$report = $client->api('Brand\Report');
 					$data = [
-						'fields' => ['Stat.payout', 'Stat.revenue', 'Stat.conversions', 'Stat.clicks', 'Stat.impressions', 'Stat.affiliate_info2', 'Stat.affiliate_id', 'Stat.offer_id', 'Stat.advertiser_id'], 
+						'fields' => ['Stat.payout', 'Stat.revenue', 'Stat.conversions', 'Stat.ltr', 'Stat.clicks', 'Stat.ctr', 'Stat.impressions', 'Stat.affiliate_info2', 'Stat.affiliate_id', 'Stat.offer_id', 'Stat.advertiser_id'], 
 						'groups' => ['Stat.affiliate_info2', 'Stat.affiliate_id', 'Stat.offer_id', 'Stat.advertiser_id'], 
 						'data_start' => date('Y-m-d'), 
 						'data_end' => date('Y-m-d'), 
@@ -216,8 +215,40 @@ function analysis_cron()
 				 echo $e;
 			}
 			
-			// TODO: update analysis and save report in DB to be analysed
+			// Save report path
+			$db->query('INSERT INTO reports (analysis_id, created, url) VALUES ('.$analysis['id'].', "'.date('Y-m-d H:i:s').'", "'.$path.'")');
+
+			// Update last run date
+			$db->query('UPDATE analysis SET last_run = "'.date('Y-m-d H:i:s').'" WHERE id = '.$analysis['id']);
 			
+			// Apply formula to rows and save detections
+			$report = json_decode($response, true);
+			foreach ($report['response']['data']['data'] as $row)
+			{
+				$values = [
+					$row['Stat']['impressions'], 
+					$row['Stat']['ctr'], 
+					$row['Stat']['clicks'], 
+					$row['Stat']['ltr'], 
+					$row['Stat']['conversions'], 
+					$row['Stat']['payout'], 
+					$row['Stat']['revenue']
+				];
+				
+				$eval = eval_formula($analysis['formula'], $values);
+				if ($eval)
+				{
+					$db->query('INSERT INTO detections (analysis_id, created, offer_id, affiliate_id, sub_ids, impressions, clicks, conversions, status, formula_used) VALUES ('.$analysis['id'].', "'.date('Y-m-d H:i:s').'", '.$row['Stat']['offer_id'].', '.$row['Stat']['affiliate_id'].', '.$row['Stat']['affiliate_info2'].', '.$row['Stat']['impressions'].', '.$row['Stat']['clicks'].', '.$row['Stat']['conversions'].', "pending", "'.$analysis['formula'].'") ON DUPLICATE KEY UPDATE SET formula_used = "'.$analysis['formula'].'", status = "pending", impressions = '.$row['Stat']['impressions'].', clicks = '.$row['Stat']['clicks'].', conversions = '.$row['Stat']['conversions'].', updated = "'.date('Y-m-d H:i:s').'"');
+				}
+			}
 		}
 	}
+}
+
+function eval_formula($formula, $values)
+{
+	// TODO: Sanitize values in $formula
+	$macros = ['{impressions}', '{ctr}', '{clicks}', '{cr}', '{conversions}', '{payout}', '{revenue}'];
+	$formula = 'if('.str_replace($macros, $values, $formula).') { return true; } else { return false; }';
+	return eval($formula);
 }
