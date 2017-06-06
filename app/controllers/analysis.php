@@ -238,7 +238,7 @@ function analysis_cron()
 				$eval = eval_formula($analysis['formula'], $values);
 				if ($eval)
 				{
-					$db->query('INSERT INTO detections (analysis_id, created, offer_id, affiliate_id, sub_ids, impressions, clicks, conversions, status, formula_used) VALUES ('.$analysis['id'].', "'.date('Y-m-d H:i:s').'", '.$row['Stat']['offer_id'].', '.$row['Stat']['affiliate_id'].', '.$row['Stat']['affiliate_info2'].', '.$row['Stat']['impressions'].', '.$row['Stat']['clicks'].', '.$row['Stat']['conversions'].', "pending", "'.$analysis['formula'].'") ON DUPLICATE KEY UPDATE SET formula_used = "'.$analysis['formula'].'", status = "pending", impressions = '.$row['Stat']['impressions'].', clicks = '.$row['Stat']['clicks'].', conversions = '.$row['Stat']['conversions'].', updated = "'.date('Y-m-d H:i:s').'"');
+					$db->query('INSERT INTO detections (account_id, analysis_id, created, offer_id, affiliate_id, sub_ids, impressions, clicks, conversions, status, formula_used) VALUES ('.$analysis['account_id'].', '.$analysis['id'].', "'.date('Y-m-d H:i:s').'", '.$row['Stat']['offer_id'].', '.$row['Stat']['affiliate_id'].', '.$row['Stat']['affiliate_info2'].', '.$row['Stat']['impressions'].', '.$row['Stat']['clicks'].', '.$row['Stat']['conversions'].', "pending", "'.$analysis['formula'].'") ON DUPLICATE KEY UPDATE formula_used = "'.$analysis['formula'].'", status = "pending", impressions = '.$row['Stat']['impressions'].', clicks = '.$row['Stat']['clicks'].', conversions = '.$row['Stat']['conversions'].', updated = "'.date('Y-m-d H:i:s').'"');
 				}
 			}
 		}

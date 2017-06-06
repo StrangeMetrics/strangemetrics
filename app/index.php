@@ -32,4 +32,6 @@ dispatch('/analysis/new', 'analysis_new');
 dispatch('/analysis/:id', 'analysis_edit');
 	dispatch_post('/analysis/:id', 'analysis_edit');
 
+dispatch('/detections/ignore/:id', 'detections_ignore');
+
 run();
