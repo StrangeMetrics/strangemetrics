@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.5.46-0ubuntu0.14.04.2)
 # Database: strangemetricsorg
-# Generation Time: 2017-06-01 02:46:32 +0000
+# Generation Time: 2017-06-07 03:40:15 +0000
 # ************************************************************
 
 
@@ -62,29 +62,13 @@ DROP TABLE IF EXISTS `cases`;
 CREATE TABLE `cases` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `account_id` int(11) NOT NULL,
-  `tracking_platform_advertiser_id` int(11) DEFAULT NULL,
-  `tracking_platform_offer_id` int(11) DEFAULT NULL,
-  `tracking_platform_source_id` int(11) DEFAULT NULL,
+  `offer_id` int(11) DEFAULT NULL,
+  `affiliate_id` int(11) DEFAULT NULL,
+  `sub_ids` varchar(100) DEFAULT NULL,
   `analysis_id` int(11) NOT NULL,
   `status` enum('open','settled') NOT NULL DEFAULT 'open',
-  `offer_lifetime_data_at` datetime DEFAULT NULL,
-  `offer_impressions` int(11) DEFAULT NULL,
-  `offer_clicks` int(11) DEFAULT NULL,
-  `offer_conversions` int(11) DEFAULT NULL,
-  `offer_revenue` int(11) DEFAULT NULL,
-  `offer_cost` int(11) DEFAULT NULL,
-  `case_impressions` int(11) DEFAULT NULL,
-  `case_clicks` int(11) DEFAULT NULL,
-  `case_conversions` int(11) DEFAULT NULL,
-  `case_revenue` float DEFAULT NULL,
-  `case_cost` float DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
   `settled_date` date DEFAULT NULL,
-  `settled_impressions` int(11) DEFAULT NULL,
-  `settled_clicks` int(11) DEFAULT NULL,
-  `settled_conversions` int(11) DEFAULT NULL,
-  `settled_revenue` float DEFAULT NULL,
-  `settled_cost` float DEFAULT NULL,
-  `synced_conversions` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -97,6 +81,7 @@ DROP TABLE IF EXISTS `detections`;
 
 CREATE TABLE `detections` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `account_id` int(11) NOT NULL,
   `analysis_id` int(11) NOT NULL,
   `offer_id` int(11) NOT NULL,
   `affiliate_id` int(11) NOT NULL,
@@ -104,12 +89,13 @@ CREATE TABLE `detections` (
   `impressions` int(11) NOT NULL,
   `clicks` int(11) NOT NULL,
   `conversions` int(11) NOT NULL,
-  `status` enum('pending','processed') NOT NULL DEFAULT 'pending',
+  `status` enum('pending','processed','ignored') NOT NULL DEFAULT 'pending',
   `formula_used` varchar(1000) DEFAULT NULL,
   `created` datetime NOT NULL,
   `updated` datetime DEFAULT NULL,
+  `case_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `analysis_id` (`analysis_id`,`offer_id`,`affiliate_id`,`sub_ids`)
+  UNIQUE KEY `account_id` (`account_id`,`analysis_id`,`offer_id`,`affiliate_id`,`sub_ids`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -141,25 +127,6 @@ CREATE TABLE `settings` (
   `key` varchar(100) NOT NULL DEFAULT '',
   `value` text,
   PRIMARY KEY (`account_id`,`object`,`entity_id`,`key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
-# Dump of table static_reports
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `static_reports`;
-
-CREATE TABLE `static_reports` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `account_id` int(11) NOT NULL,
-  `analysis_id` int(11) NOT NULL,
-  `data_path` varchar(255) NOT NULL DEFAULT '',
-  `analysis_settings_path` varchar(255) DEFAULT NULL,
-  `analysed` datetime DEFAULT NULL,
-  `has_flags` tinyint(1) DEFAULT NULL,
-  `created` datetime NOT NULL,
-  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
