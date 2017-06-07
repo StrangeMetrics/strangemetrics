@@ -35,4 +35,7 @@ dispatch('/analysis/:id', 'analysis_edit');
 dispatch('/page/:id', 'detections_index');
 dispatch('/detections/ignore/:id', 'detections_ignore');
 
+dispatch('/cases/create/:detection_id', 'cases_create_from_detection');
+dispatch('/cases', 'cases_index');
+
 run();

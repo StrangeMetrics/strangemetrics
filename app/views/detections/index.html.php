@@ -13,6 +13,7 @@
 <h1>Detections</h1>
 
 <div class="alert alert-info"><?= flash_now('info') ?></div>
+<div class="alert alert-success"><?= flash_now('success') ?></div>
 
 <table class="table table-hover">
 	<thead>
@@ -49,7 +50,7 @@
 				<td><?= number_format($d['conversions'], 0) ?></td>
 				<td>
 					<a class="btn btn-xs btn-default" href="<?= url_for('/detections/ignore/'.$d['id']) ?>">Ignore</a>
-					<a class="btn btn-xs btn-primary" href="">Create Case</a>
+					<a class="btn btn-xs btn-primary" href="<?= url_for('/cases/create/'.$d['id']) ?>">Create Case</a>
 				</td>
 			</tr>
 		<?php endforeach; ?>
