@@ -55,4 +55,27 @@
 		<?php endforeach; ?>
 	</tbody>
 </table>
+
+<nav aria-label="...">
+  <ul class="pagination">
+	  <?php if ($page==0) { ?>
+		  <li class="disabled"><a href="<?= url_for('/') ?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+	  <?php } else { ?>
+		  <li><a href="<?= url_for('/page/'.($page-1)) ?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+	  <?php } ?>
+	 <?php for ($i=0; $i < round($total_items/$limit); $i++) { ?>
+		 <?php if ($i==$page) { ?>
+		    <li class="active"><a href="<?= url_for('/page/'.$i) ?>"><?= $i ?> <span class="sr-only">(current)</span></a></li>
+		 <?php } else { ?>
+			 <li><a href="<?= url_for('/page/'.$i) ?>"><?= $i ?></a></li>
+		 <?php } ?>
+	 <?php } ?>
+	 <?php if ((($page+1)*$limit)>=$total_items) { ?>
+		 <li class="disabled"><a href="<?= url_for('/page/'.$page) ?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+	 <?php } else { ?>
+		 <li><a href="<?= url_for('/page/'.($page+1)) ?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+	 <?php } ?>
+  </ul>
+</nav>
+
 <?php endif; ?>

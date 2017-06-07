@@ -130,7 +130,7 @@ function analysis_cron()
 	{
 		$analysis = $analysis->fetch_array(MYSQL_ASSOC);
 		$settings = [];
-		
+
 		// Get analysis settings
 		$analysis_settings = $db->query('SELECT `key`, `value` FROM settings WHERE account_id = '.$analysis['account_id'].' AND object = "analysis" AND entity_id = '.$analysis['id']);
 		if ($analysis_settings)

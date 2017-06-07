@@ -29,7 +29,7 @@
 						</div><!--/.navbar-header -->
 						<div class="collapse navbar-collapse" id="navbar-admin">
 							<ul class="nav navbar-nav">
-								<li<?php if($section=='dashboard') { echo ' class="active"'; } ?>><a href="<?= url_for('/') ?>"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
+								<li<?php if($section=='detections') { echo ' class="active"'; } ?>><a href="<?= url_for('/') ?>"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
 								<li<?php if($section=='settings') { echo ' class="active"'; } ?>><a href="<?= url_for('/settings') ?>"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
 								<li<?php if($section=='analysis') { echo ' class="active"'; } ?>><a href="<?= url_for('/analysis') ?>"><span class="glyphicon glyphicon-stats"></span> Analysis</a></li>
 								<li<?php if($section=='cases') { echo ' class="active"'; } ?>><a href="<?= url_for('/cases') ?>"><span class="glyphicon glyphicon-list"></span> Cases <span class="badge">4</span></a></li>
