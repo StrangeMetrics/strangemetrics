@@ -5,7 +5,7 @@ require_once __DIR__.'/limonade.php';
 require_once __DIR__.'/config.php';
 require_once __DIR__.'/database/mysql.php';
 
-dispatch('/', 'dashboard_index');
+dispatch('/', 'detections_index');
 
 dispatch('/login', 'users_login');
 	dispatch_post('/login', 'users_login');
@@ -32,6 +32,10 @@ dispatch('/analysis/new', 'analysis_new');
 dispatch('/analysis/:id', 'analysis_edit');
 	dispatch_post('/analysis/:id', 'analysis_edit');
 
+dispatch('/page/:id', 'detections_index');
 dispatch('/detections/ignore/:id', 'detections_ignore');
+
+dispatch('/cases/create/:detection_id', 'cases_create_from_detection');
+dispatch('/cases', 'cases_index');
 
 run();

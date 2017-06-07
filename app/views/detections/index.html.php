@@ -13,6 +13,7 @@
 <h1>Detections</h1>
 
 <div class="alert alert-info"><?= flash_now('info') ?></div>
+<div class="alert alert-success"><?= flash_now('success') ?></div>
 
 <table class="table table-hover">
 	<thead>
@@ -49,10 +50,33 @@
 				<td><?= number_format($d['conversions'], 0) ?></td>
 				<td>
 					<a class="btn btn-xs btn-default" href="<?= url_for('/detections/ignore/'.$d['id']) ?>">Ignore</a>
-					<a class="btn btn-xs btn-primary" href="">Create Case</a>
+					<a class="btn btn-xs btn-primary" href="<?= url_for('/cases/create/'.$d['id']) ?>">Create Case</a>
 				</td>
 			</tr>
 		<?php endforeach; ?>
 	</tbody>
 </table>
+
+<nav aria-label="...">
+  <ul class="pagination">
+	  <?php if ($page==0) { ?>
+		  <li class="disabled"><a href="<?= url_for('/') ?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+	  <?php } else { ?>
+		  <li><a href="<?= url_for('/page/'.($page-1)) ?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+	  <?php } ?>
+	 <?php for ($i=0; $i < round($total_items/$limit); $i++) { ?>
+		 <?php if ($i==$page) { ?>
+		    <li class="active"><a href="<?= url_for('/page/'.$i) ?>"><?= $i ?> <span class="sr-only">(current)</span></a></li>
+		 <?php } else { ?>
+			 <li><a href="<?= url_for('/page/'.$i) ?>"><?= $i ?></a></li>
+		 <?php } ?>
+	 <?php } ?>
+	 <?php if ((($page+1)*$limit)>=$total_items) { ?>
+		 <li class="disabled"><a href="<?= url_for('/page/'.$page) ?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+	 <?php } else { ?>
+		 <li><a href="<?= url_for('/page/'.($page+1)) ?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+	 <?php } ?>
+  </ul>
+</nav>
+
 <?php endif; ?>
